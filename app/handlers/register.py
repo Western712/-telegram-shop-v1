@@ -9,6 +9,7 @@ from app.handlers.stock import router as stock_router
 from app.handlers.edit_product import router as edit_product_router
 from app.handlers.archive_product import router as archive_product_router
 from app.handlers.restore_product import router as restore_product_router
+from app.handlers.search_product import router as search_product_router
 
 
 def register_routers(dp: Dispatcher) -> None:
@@ -21,3 +22,4 @@ def register_routers(dp: Dispatcher) -> None:
     dp.include_router(edit_product_router)
     dp.include_router(archive_product_router)
     dp.include_router(restore_product_router)
+    dp.include_router(search_product_router)
