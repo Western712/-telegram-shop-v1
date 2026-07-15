@@ -17,3 +17,6 @@ class ProductService:
 
     async def get_product_by_article(self, article: str) -> Product | None:
         return await self.repository.get_by_article(article)
+
+    async def get_product(self, product_id: int) -> Product | None:
+        return await self.repository.get_by_id(product_id)
