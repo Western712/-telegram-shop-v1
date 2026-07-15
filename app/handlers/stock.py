@@ -29,13 +29,26 @@ async def stock_out(callback: CallbackQuery, state: FSMContext):
 @router.message(StockChange.quantity)
 async def change_stock(message: Message, state: FSMContext):
     data = await state.get_data()
-    quantity = int(message.text) * data["operation"]
+
+    try:
+        quantity = int(message.text) * data["operation"]
+    except ValueError:
+        await message.answer("❌ Введите число")
+        return
 
     async with async_session() as session:
         product_service = ProductService(session)
         product = await product_service.get_product(data["product_id"])
-        if product:
+
+        if not product:
+            await message.answer("❌ Товар не найден")
+            return
+
+        try:
             await StockService(session).change_stock(product, quantity)
+        except ValueError as error:
+            await message.answer(f"❌ {error}")
+            return
 
     await state.clear()
     await message.answer("✅ Остаток обновлён")
