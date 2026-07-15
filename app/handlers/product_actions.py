@@ -2,7 +2,8 @@ from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 
-from app.states.product import ProductCreation
+from app.database.connection import async_session
+from app.services.product_service import ProductService
 
 router = Router()
 
@@ -17,9 +18,11 @@ async def cancel_product(callback: CallbackQuery, state: FSMContext) -> None:
 @router.callback_query(lambda c: c.data == "save_product")
 async def save_product(callback: CallbackQuery, state: FSMContext) -> None:
     data = await state.get_data()
+
+    async with async_session() as session:
+        service = ProductService(session)
+        await service.create_product(**data)
+
     await state.clear()
-    await callback.message.answer(
-        "✅ Товар подготовлен к сохранению:\n"
-        f"{data}"
-    )
+    await callback.message.answer("✅ Товар успешно добавлен в базу")
     await callback.answer()
