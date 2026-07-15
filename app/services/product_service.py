@@ -20,3 +20,6 @@ class ProductService:
 
     async def get_product(self, product_id: int) -> Product | None:
         return await self.repository.get_by_id(product_id)
+
+    async def search(self, query: str) -> list[Product]:
+        return await self.repository.search(query)
