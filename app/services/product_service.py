@@ -1,0 +1,16 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.models.product import Product
+from app.repositories.product_repository import ProductRepository
+
+
+class ProductService:
+    def __init__(self, session: AsyncSession):
+        self.repository = ProductRepository(session)
+
+    async def create_product(self, **data) -> Product:
+        product = Product(**data)
+        return await self.repository.create(product)
+
+    async def get_products(self) -> list[Product]:
+        return await self.repository.get_all()
