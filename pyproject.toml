@@ -1,0 +1,11 @@
+[project]
+name = "telegram-shop"
+version = "0.1.0"
+description = "Telegram ERP shop management bot"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
