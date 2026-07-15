@@ -12,6 +12,12 @@ class ProductRepository:
         result = await self.session.execute(select(Product))
         return list(result.scalars().all())
 
+    async def get_by_id(self, product_id: int) -> Product | None:
+        result = await self.session.execute(
+            select(Product).where(Product.id == product_id)
+        )
+        return result.scalar_one_or_none()
+
     async def get_by_article(self, article: str) -> Product | None:
         result = await self.session.execute(
             select(Product).where(Product.article == article)
