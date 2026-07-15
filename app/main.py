@@ -1,9 +1,13 @@
-"""Main entry point for Telegram Shop bot."""
+import asyncio
+
+from app.bot.loader import bot, dp
+from app.handlers.register import register_routers
 
 
-def main() -> None:
-    print("Telegram Shop starting...")
+async def main() -> None:
+    register_routers(dp)
+    await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
